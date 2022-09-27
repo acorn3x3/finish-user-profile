@@ -1,9 +1,11 @@
 import '../auth/user.js';
+import { updateProfile, getProfile, getUser } from '../fetch-utils.js';
+
 // > Part A: import updateProfile from fetch-utils.js
 // > Part B: import getUser and getProfile from fetch-utils.js
 
 // > Part B: get the user
-const user = null; // ???
+const user = getUser();
 
 const errorDisplay = document.getElementById('error-display');
 const profileForm = document.getElementById('profile-form');
@@ -15,14 +17,14 @@ let profile = null;
 let error = null;
 
 window.addEventListener('load', async () => {
-    // > Part B:
-    //      - get the profile based on user.id
-    //      - set profile and error state from response object
+    const response = await getProfile(user.id);
+    console.log(user);
+    error = response.error;
+    profile = response.data;
 
     if (error) {
         displayError();
     }
-
     if (profile) {
         displayProfile();
     }
@@ -42,11 +44,14 @@ profileForm.addEventListener('submit', async (e) => {
 
     // create a form data object for easy access to form values
     const formData = new FormData(profileForm);
-
+    const profileUpdate = {
+        user_name: formData.get('user_name'),
+        bio: formData.get('bio'),
+    };
     // > Part A
     //      - create a profile update object
     //      - call updateProfile passing in profile update object, capture the response
-    const response = null; // ??????
+    const response = await updateProfile(profileUpdate);
 
     error = response.error;
 
@@ -60,11 +65,13 @@ profileForm.addEventListener('submit', async (e) => {
         updateButton.textContent = buttonText;
     } else {
         // > Part A: uncomment when working to redirect user
-        // location.assign('../');
+        location.assign('../');
     }
 });
 
 function displayProfile() {
+    userNameInput.value = profile.user_name;
+    bioTextArea.value = profile.bio;
     // > Part B: update user name and bio from profile object
 }
 

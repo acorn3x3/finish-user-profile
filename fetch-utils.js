@@ -1,6 +1,6 @@
 const SUPABASE_URL = 'https://rhjybmkxbulsbeekbtld.supabase.co';
-const SUPABASE_KEY =  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJoanlibWt4YnVsc2JlZWtidGxkIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjM4ODE1NjgsImV4cCI6MTk3OTQ1NzU2OH0.epJjgyE-2zaELp_M_FBHKpIEg5t6xfAG2Dgfit60obI
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0Z2p1emZlbnFxenZiZXVha29rIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjA0OTk4NTUsImV4cCI6MTk3NjA3NTg1NX0.8oeztp3xsNKS41oByRVPcWzX-MM8_vXfcKfiEyH8A5s';
+const SUPABASE_KEY =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJoanlibWt4YnVsc2JlZWtidGxkIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjM4ODE1NjgsImV4cCI6MTk3OTQ1NzU2OH0.epJjgyE-2zaELp_M_FBHKpIEg5t6xfAG2Dgfit60obI';
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 /* Auth related functions */
@@ -30,15 +30,20 @@ export async function signOutUser() {
 /* user profiles */
 
 export async function updateProfile(profile) {
-    uperset     
+    const response = await client.from('profiles').upsert(profile).single();
+    return response;
     // > Part A: upsert into profiles table
 }
 
 export async function getProfile(id) {
+    const response = await client.from('profiles').select('*').eq('id', id).maybeSingle();
+    return response;
     // > Part B: get profile by id, maybe single row returned
 }
 
 export async function getProfiles() {
+    return await client.from('profiles').select().limit(100);
+
     // > Part D: get all profiles (limit 100)
 }
 
