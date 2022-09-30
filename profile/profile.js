@@ -42,11 +42,14 @@ profileForm.addEventListener('submit', async (e) => {
 
     // create a form data object for easy access to form values
     const formData = new FormData(profileForm);
-
+    const profileUpdate = {
+        user_name: formData.get('user_name'),
+        bio: formData.get('bio'),
+    };
     // > Part A
     //      - create a profile update object
     //      - call updateProfile passing in profile update object, capture the response
-    const response = null; // ??????
+    const response = await updateProfile(profileUpdate);
 
     error = response.error;
 
@@ -60,7 +63,7 @@ profileForm.addEventListener('submit', async (e) => {
         updateButton.textContent = buttonText;
     } else {
         // > Part A: uncomment when working to redirect user
-        // location.assign('../');
+        location.assign('../');
     }
 });
 
