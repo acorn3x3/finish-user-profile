@@ -30,6 +30,9 @@ export async function signOutUser() {
 /* user profiles */
 
 export async function updateProfile(profile) {
+     {
+        const response = await client.from('profiles').upsert(profile).single();
+        return response;
     // > Part A: upsert into profiles table
 }
 
